@@ -1,0 +1,826 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  width: 100%;
+}
+body {
+  margin: 0;
+  background: #fff;
+  width: 100%;
+  overflow-x: hidden;
+}
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+* { box-sizing: border-box; }
+
+@layer components {
+  .section-shell { @apply w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 2xl:px-20; }
+  .nav-link { @apply text-[13px] font-semibold text-slate-600 transition hover:text-brand-500; }
+  .eyebrow { @apply inline-flex items-center gap-2 text-[11px] font-extrabold tracking-[.14em] text-brand-500 uppercase; }
+  .eyebrow-dot { @apply h-1.5 w-1.5 rounded-full bg-accent-500; }
+  .section-title { @apply text-[28px] font-extrabold leading-[1.12] tracking-[-.03em] text-brand-900 md:text-[36px] xl:text-[40px]; }
+  .section-copy { @apply max-w-3xl text-[14px] leading-6 text-slate-600; }
+  .section-soft { @apply bg-[#f3f9ff]; }
+  .icon-circle { @apply grid h-11 w-11 shrink-0 place-items-center rounded-full bg-brand-50 text-brand-500 transition; }
+  .problem-card { @apply relative rounded-xl border border-slate-200 bg-white p-5 shadow-card transition duration-300 hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-soft; }
+  .problem-card h3 { @apply mt-4 text-[14px] font-extrabold text-brand-900; }
+  .problem-card p { @apply mt-1.5 text-[12px] leading-5 text-slate-500; }
+  .mini-service { @apply flex gap-3 rounded-xl border border-slate-200 bg-white p-4 transition hover:-translate-y-0.5 hover:border-brand-200 hover:shadow-card; }
+  .mini-service h3 { @apply text-sm font-extrabold text-brand-900; }
+  .mini-service p { @apply mt-1 text-[11px] leading-4 text-slate-500; }
+  .why-card { @apply rounded-xl border border-slate-100 bg-white p-6 shadow-card; }
+  .why-card h3 { @apply mt-4 text-sm font-extrabold text-brand-900; }
+  .why-card p { @apply mt-1.5 text-xs leading-5 text-slate-500; }
+  .field { @apply block; }
+  .field span { @apply mb-1.5 block text-xs font-bold text-brand-900; }
+  .field input, .field select, .field textarea { @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-brand-500 focus:ring-4 focus:ring-brand-100; }
+  .field textarea { @apply min-h-[110px] resize-y; }
+  .upload { @apply flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-brand-300 bg-brand-50/50 p-4 transition hover:bg-brand-50; }
+  .upload b { @apply block text-xs text-brand-900; }
+  .upload small { @apply mt-1 block text-[11px] text-slate-500; }
+  .upload input { display: none; }
+  .form-card { @apply rounded-2xl border border-slate-100 bg-white p-5 shadow-soft sm:p-7; }
+  .footer-head { @apply text-xs font-extrabold uppercase tracking-wider text-white; }
+  .footer-links { @apply mt-4 flex flex-col gap-2.5 text-xs text-white/55; }
+  .footer-links a:hover { color: white; }
+  .social-icon { @apply grid h-9 w-9 place-items-center rounded-lg border border-white/15 text-white/70 transition hover:border-white/30 hover:text-white; }
+}
+
+.logo-mark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: linear-gradient(145deg, #0b74e8, #0968d7);
+  color: white;
+  box-shadow: 0 4px 12px rgba(20, 119, 232, 0.25);
+}
+
+/* ─── Hero Banner ─────────────────────────────── */
+.hero-banner {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+  border-radius: 22px;
+  box-shadow: 0 16px 48px rgba(8, 41, 79, 0.14);
+  background: #f0f6ff;
+}
+.hero-banner img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: center center;
+}
+
+/* tablet: slightly reduced aspect so image isn't too tall */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .hero-banner {
+    aspect-ratio: 16 / 8;
+  }
+}
+
+/* mobile: full-width underneath content, 16:9-ish */
+@media (max-width: 767px) {
+  .hero-banner {
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    box-shadow: 0 8px 28px rgba(8, 41, 79, 0.1);
+  }
+}
+
+.process-line {
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  top: 36px;
+  height: 1px;
+  border-top: 2px dashed #b8d9f8;
+}
+
+.process-arrow {
+  position: absolute;
+  top: 26px;
+  right: -18px;
+  color: #8cc4f6;
+  z-index: 20;
+}
+
+.image-card {
+  overflow: hidden;
+  min-height: 400px;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(8, 41, 79, 0.1);
+}
+.image-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  object-fit: cover;
+}
+
+.track-box {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  border: 1px solid #dceeff;
+  border-radius: 24px;
+  padding: 36px;
+  background: linear-gradient(120deg, #edf8ff, #f8fcff);
+  box-shadow: 0 12px 40px rgba(8, 41, 79, 0.06);
+}
+.track-box::before {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  right: -80px;
+  top: -120px;
+  border: 36px solid rgba(20, 119, 232, 0.05);
+}
+@media (min-width: 1024px) {
+  .track-box {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 44px 48px;
+  }
+}
+
+.track-phone {
+  width: 180px;
+  flex-shrink: 0;
+}
+.track-phone-screen {
+  border-radius: 20px;
+  border: 3px solid #1e293b;
+  background: white;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(8, 41, 79, 0.15);
+}
+.track-phone-header {
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: center;
+}
+.track-phone-body {
+  padding: 16px;
+}
+
+.testimonial-card {
+  display: flex;
+  gap: 0;
+  align-items: stretch;
+  overflow: hidden;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  background: white;
+  box-shadow: 0 10px 30px rgba(8, 41, 79, 0.07);
+  min-height: 220px;
+}
+.testimonial-photo {
+  width: 45%;
+  max-width: 220px;
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 0;
+}
+.testimonial-content {
+  flex: 1;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.testimonial-bubble {
+  position: relative;
+  padding: 0;
+  background: none;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #334155;
+  font-style: italic;
+}
+.testimonial-bubble::before {
+  content: "\201C";
+  display: block;
+  font-size: 32px;
+  color: #1477e8;
+  line-height: 1;
+  font-style: normal;
+  margin-bottom: 4px;
+}
+.testimonial-author {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.testimonial-author strong {
+  font-size: 14px;
+  color: #08294f;
+}
+.testimonial-author span {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.final-cta {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  padding: 44px 48px;
+  background: linear-gradient(110deg, #08294f 0%, #0b5e9d 50%, #12a57c 100%);
+  box-shadow: 0 20px 50px rgba(8, 41, 79, 0.16);
+}
+.cta-orb {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.cta-orb-1 { width: 240px; height: 240px; right: -60px; top: -80px; }
+.cta-orb-2 { width: 160px; height: 160px; right: 60px; bottom: -100px; }
+.cta-grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  background-image:
+    linear-gradient(45deg, transparent 48%, white 49%, white 51%, transparent 52%),
+    linear-gradient(-45deg, transparent 48%, white 49%, white 51%, transparent 52%);
+  background-size: 50px 50px;
+  mask-image: linear-gradient(to left, black, transparent 70%);
+}
+
+@media (max-width: 767px) {
+  .process-line, .process-arrow { display: none; }
+  .final-cta { padding: 32px 24px; }
+  .testimonial-card { flex-direction: column; text-align: center; }
+  .testimonial-photo { width: 80px; height: 80px; }
+}
+
+/* =========================================================
+   SOCIAL PROOF MAIN GRID
+========================================================= */
+
+.social-proof-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+  gap: 34px;
+
+  align-items: start;
+}
+
+
+/* =========================================================
+   LEFT TESTIMONIAL COLUMN
+========================================================= */
+
+.testimonials-column {
+  min-width: 0;
+}
+
+.testimonial-heading {
+  margin-bottom: 20px;
+}
+
+
+/* =========================================================
+   TESTIMONIAL VIEWPORT
+========================================================= */
+
+.testimonial-viewport {
+  width: 100%;
+
+  /*
+   * EXACTLY TWO CARDS
+   *
+   * 245 + 18 + 245 = 508px
+   */
+  height: 508px;
+
+  overflow: hidden;
+
+  position: relative;
+}
+
+
+/* =========================================================
+   TESTIMONIAL STACK
+========================================================= */
+
+.testimonial-stack {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 18px;
+
+  animation: testimonialStackIn 700ms ease;
+}
+
+
+/* =========================================================
+   TESTIMONIAL CARD
+========================================================= */
+
+.testimonial-card {
+  width: 100%;
+
+  height: 245px;
+  min-height: 245px;
+
+  display: grid;
+
+  grid-template-columns: 35% 65%;
+
+  overflow: hidden;
+
+  border-radius: 22px;
+
+  background: #ffffff;
+
+  border: 1px solid #e7eef7;
+
+  box-shadow:
+    0 12px 35px rgba(15, 43, 87, 0.07);
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.testimonial-image-wrapper {
+  width: 100%;
+  height: 245px;
+
+  overflow: hidden;
+
+  background: #eef5fb;
+}
+
+
+.testimonial-photo {
+  width: 100%;
+  height: 100%;
+
+  display: block;
+
+  object-fit: cover;
+
+  object-position: center;
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.testimonial-content {
+  position: relative;
+
+  height: 245px;
+
+  padding: 25px 28px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  justify-content: center;
+
+  background: #f7faff;
+}
+
+
+/* =========================================================
+   QUOTE MARK
+========================================================= */
+
+.testimonial-quote-mark {
+  position: absolute;
+
+  top: 13px;
+  left: 25px;
+
+  font-family: Georgia, serif;
+
+  font-size: 48px;
+
+  line-height: 1;
+
+  font-weight: 700;
+
+  color: #1677ee;
+
+  opacity: 0.9;
+}
+
+
+/* =========================================================
+   QUOTE
+========================================================= */
+
+.testimonial-bubble {
+  margin: 0;
+
+  padding-top: 18px;
+
+  font-size: 16px;
+
+  line-height: 1.45;
+
+  font-weight: 500;
+
+  font-style: italic;
+
+  color: #102b57;
+}
+
+
+/* =========================================================
+   AUTHOR
+========================================================= */
+
+.testimonial-author {
+  margin-top: 12px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 2px;
+}
+
+
+.testimonial-author strong {
+  font-size: 17px;
+
+  font-weight: 700;
+
+  color: #102b57;
+}
+
+
+.testimonial-author > span:not(.testimonial-stars) {
+  font-size: 13px;
+
+  color: #64748b;
+}
+
+
+/* =========================================================
+   STARS
+========================================================= */
+
+.testimonial-stars {
+  margin-top: 3px;
+
+  font-size: 15px;
+
+  letter-spacing: 1px;
+
+  color: #f5b82e;
+}
+
+
+/* =========================================================
+   ANIMATION
+========================================================= */
+
+@keyframes testimonialStackIn {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================================
+   FAQ
+========================================================= */
+
+.faq-column {
+  min-width: 0;
+}
+
+
+.faq-card {
+  margin-top: 20px;
+
+  width: 100%;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  border: 1px solid #edf2f7;
+
+  background: #ffffff;
+
+  box-shadow:
+    0 12px 35px rgba(15, 43, 87, 0.06);
+}
+
+
+.faq-item {
+  border-bottom: 1px solid #e5eaf0;
+}
+
+
+.faq-item:last-child {
+  border-bottom: none;
+}
+
+
+.faq-question {
+  width: 100%;
+
+  min-height: 61px;
+
+  padding: 16px 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  border: none;
+
+  background: transparent;
+
+  text-align: left;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  color: #102b57;
+
+  cursor: pointer;
+
+  transition: background 200ms ease;
+}
+
+
+.faq-question:hover {
+  background: #f8fafc;
+}
+
+
+.faq-icon {
+  flex-shrink: 0;
+
+  color: #94a3b8;
+
+  transition:
+    transform 200ms ease,
+    color 200ms ease;
+}
+
+
+.faq-icon-open {
+  transform: rotate(45deg);
+
+  color: #1677ee;
+}
+
+
+.faq-answer {
+  padding: 14px 20px 16px;
+
+  border-top: 1px solid #eef2f6;
+
+  background: #f8fafc;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+
+  color: #64748b;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+  .social-proof-grid {
+    gap: 24px;
+  }
+
+  .testimonial-card {
+    grid-template-columns: 38% 62%;
+  }
+
+  .testimonial-content {
+    padding: 20px;
+  }
+
+  .testimonial-bubble {
+    font-size: 14px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .social-proof-grid {
+    grid-template-columns: 1fr;
+
+    gap: 50px;
+  }
+
+
+  .testimonial-viewport {
+    height: 500px;
+  }
+
+
+  .testimonial-card {
+    height: 241px;
+    min-height: 241px;
+
+    grid-template-columns: 38% 62%;
+
+    border-radius: 18px;
+  }
+
+
+  .testimonial-image-wrapper {
+    height: 241px;
+  }
+
+
+  .testimonial-content {
+    height: 241px;
+
+    padding: 18px;
+  }
+
+
+  .testimonial-bubble {
+    font-size: 14px;
+
+    line-height: 1.4;
+  }
+
+
+  .testimonial-author strong {
+    font-size: 15px;
+  }
+
+
+  .testimonial-author > span:not(.testimonial-stars) {
+    font-size: 12px;
+  }
+
+
+  .testimonial-stars {
+    font-size: 13px;
+  }
+
+
+  .faq-column {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .testimonial-viewport {
+    height: 460px;
+  }
+
+
+  .testimonial-card {
+    height: 221px;
+    min-height: 221px;
+
+    grid-template-columns: 36% 64%;
+  }
+
+
+  .testimonial-image-wrapper {
+    height: 221px;
+  }
+
+
+  .testimonial-content {
+    height: 221px;
+
+    padding: 15px;
+  }
+
+
+  .testimonial-bubble {
+    font-size: 13px;
+  }
+
+
+  /* .testimonial-quote-mark {
+    left: 15px;
+
+    font-size: 40px;
+  } */
+
+
+  .testimonial-author {
+    margin-top: 8px;
+  }
+
+
+  .faq-question {
+    min-height: 55px;
+
+    padding: 14px 16px;
+
+    font-size: 13px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .testimonial-stack {
+    animation: none;
+  }
+
+}
+
+
+
+.track-section {
+  overflow: hidden; /* clips anything that bleeds past the section edge */
+}
+
+.track-box {
+  position: relative;
+}
+
+.track-phone-image {
+  position: absolute;
+  right: -20px;
+  bottom: -100px;
+  width: 480px;      /* was 340px */
+  height: auto;
+  z-index: 5;
+  pointer-events: none;
+  filter: drop-shadow(0 20px 40px rgba(15, 23, 42, 0.15));
+}
+
+@media (min-width: 1024px) {
+  .track-phone-image {
+    width: 600px;     /* was 420px */
+    right: 0;
+    bottom: -380px;
+  }
+}
+
+@media (max-width: 640px) {
+  .track-phone-image {
+    display: none; /* usually better to hide it on small screens rather than crop awkwardly */
+  }
+}
