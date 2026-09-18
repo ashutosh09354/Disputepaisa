@@ -874,7 +874,7 @@
 
 
 import { useState } from "react";
-import { ArrowRight, Check, Upload } from "lucide-react";
+import { ArrowRight, Check, Copy, Upload } from "lucide-react";
 import { issues, queryBenefits } from "../../data/constants";
 import Button from "../ui/Button";
 import Field from "../ui/Field";
@@ -895,6 +895,27 @@ function fileToBase64(file) {
 }
 
 function QuerySuccess({ queryId }) {
+  const [copied, setCopied] = useState(false);
+
+  const copyQueryId = async () => {
+    try {
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(queryId);
+      } else {
+        const input = document.createElement("textarea");
+        input.value = queryId;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        input.remove();
+      }
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setCopied(false);
+    }
+  };
+
   return (
     <section id="query" className="section-shell py-16 lg:py-20">
       <div className="mx-auto max-w-2xl rounded-3xl border border-emerald-100 bg-emerald-50 p-8 text-center shadow-soft">
@@ -908,6 +929,14 @@ function QuerySuccess({ queryId }) {
         <div className="mx-auto mt-6 max-w-sm rounded-xl bg-white p-5">
           <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Query Reference ID</div>
           <div className="mt-2 text-2xl font-extrabold tracking-wider text-brand-700">{queryId}</div>
+          <button
+            type="button"
+            onClick={copyQueryId}
+            className="mx-auto mt-4 inline-flex items-center gap-2 rounded-lg border border-brand-200 bg-brand-50 px-3 py-2 text-xs font-extrabold text-brand-700 transition hover:bg-brand-100 active:scale-[0.98]"
+          >
+            {copied ? <Check size={15} /> : <Copy size={15} />}
+            {copied ? "Copied" : "Copy ID"}
+          </button>
         </div>
         <div className="mt-6 flex justify-center gap-3">
           <Button href="#track">Track My Query <ArrowRight size={15} /></Button>
