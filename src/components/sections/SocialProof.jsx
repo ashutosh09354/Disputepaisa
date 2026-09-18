@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 
 import testimonialImage from "../../assets/testimonial.png";
+import testimonialImage3 from "../../assets/testimonial3.png";  
+import testimonialImage2 from "../../assets/testimonial2.png";
 import { faqs } from "../../data/constants";
 
 const testimonials = [
@@ -15,7 +17,7 @@ const testimonials = [
   },
   {
     id: 2,
-    image: testimonialImage,
+    image: testimonialImage2,
     quote:
       "I was confused about how to raise my banking complaint. DisputePaisa made the entire process simple and easy to understand.",
     name: "Rahul M.",
@@ -23,7 +25,7 @@ const testimonials = [
   },
   {
     id: 3,
-    image: testimonialImage,
+    image: testimonialImage3,
     quote:
       "I could finally track my complaint without repeatedly contacting the bank. The process was clear and convenient.",
     name: "Sneha R.",
@@ -67,7 +69,7 @@ export default function SocialProof() {
   return (
     <section
       id="faq"
-      className="section-shell pb-16 lg:pb-20"
+      className="section-shell pb-11 md:pb-16 lg:pb-20"
     >
       <div className="social-proof-grid">
 
@@ -93,14 +95,16 @@ export default function SocialProof() {
             >
 
               {/* FIRST TESTIMONIAL */}
-              <TestimonialCard
-                testimonial={first}
-              />
+<TestimonialCard
+  testimonial={first}
+/>
 
-              {/* SECOND TESTIMONIAL */}
-              <TestimonialCard
-                testimonial={second}
-              />
+{/* SECOND TESTIMONIAL — hidden only on mobile */}
+<div className="testimonial-second-mobile-hidden">
+  <TestimonialCard
+    testimonial={second}
+  />
+</div>
 
             </div>
 

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Instagram, Linkedin, Twitter, Youtube } from "lucide-react";
 import Logo from "../ui/Logo";
 
@@ -48,9 +49,9 @@ export default function Footer() {
           <div>
             <h3 className="footer-head">Legal & Contact</h3>
             <div className="footer-links">
-              <a href="#">Privacy Policy</a>
-              <a href="#">Terms & Conditions</a>
-              <a href="#">Disclaimer</a>
+              <Link to="/privacy-policy">Privacy Policy</Link>
+              <Link to="/terms-conditions">Terms & Conditions</Link>
+              <Link to="/disclaimer">Disclaimer</Link>
               <span className="mt-2">support@disputepaisa.com</span>
               <span>+91 XXXXX XXXXX</span>
               <span>Mon - Sat, 9AM - 6PM</span>

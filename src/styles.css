@@ -87,12 +87,83 @@ body {
   }
 }
 
+/* Give the new desktop hero artwork room to show its support journey clearly. */
+@media (min-width: 1280px) {
+  .hero-banner {
+    height: 100%;
+    aspect-ratio: auto;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .hero-banner img {
+    object-fit: contain;
+    object-position: center;
+  }
+  .hero-visual {
+    position: absolute;
+    inset: 0 0 0 25%;
+    display: block;
+    pointer-events: none;
+    background-repeat: no-repeat;
+    background-position: calc(50% - 150px) center;
+    background-size: auto 100%;
+  }
+  .hero-visual::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, #f7fbff 0%, #f7fbff 18%, rgba(247, 251, 255, 0.86) 27%, rgba(247, 251, 255, 0) 43%);
+  }
+}
+
 /* mobile: full-width underneath content, 16:9-ish */
 @media (max-width: 767px) {
+  html { scroll-padding-top: 84px; }
+  .section-shell { padding-left: 16px; padding-right: 16px; }
+  .section-title { font-size: 28px; line-height: 1.13; }
+  .section-copy { font-size: 15px; line-height: 1.55; }
+  .problem-card { border-radius: 16px; box-shadow: 0 6px 18px rgba(8, 41, 79, 0.05); }
+  .problem-card:active, .mini-service:active, .why-card:active { transform: scale(0.99); }
+  .track-box { gap: 20px; border-radius: 20px; padding: 24px 20px; }
+  .track-box::before { width: 180px; height: 180px; right: -72px; top: -70px; border-width: 26px; }
+  .form-card { border-radius: 18px; padding: 18px 16px; }
+  .why-card { border-radius: 16px; padding: 18px; box-shadow: 0 6px 18px rgba(8, 41, 79, 0.05); }
   .hero-banner {
     aspect-ratio: 16 / 9;
     border-radius: 16px;
     box-shadow: 0 8px 28px rgba(8, 41, 79, 0.1);
+  }
+
+  /* Footer: phone-only layout. Desktop and tablet rules are unchanged. */
+  #contact .section-shell { padding-top: 40px; padding-bottom: 28px; }
+  #contact .grid { gap: 34px; }
+  #contact .grid > div:first-child { padding-bottom: 2px; }
+  #contact .grid > div:first-child .inline-flex img { height: 42px; }
+  #contact .grid > div:first-child p {
+    max-width: 320px;
+    margin-top: 16px;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  #contact .grid > div:first-child .flex { margin-top: 20px; gap: 12px; }
+  #contact .social-icon { width: 42px; height: 42px; border-radius: 10px; }
+  #contact .social-icon svg { width: 18px; height: 18px; }
+  #contact .footer-head { font-size: 12px; }
+  #contact .footer-links {
+    margin-top: 13px;
+    gap: 10px;
+    font-size: 13px;
+    line-height: 1.45;
+  }
+  #contact .footer-links span,
+  #contact .footer-links a { overflow-wrap: anywhere; }
+  #contact .border-t {
+    margin-top: 34px;
+    padding-top: 20px;
+    gap: 8px;
+    font-size: 11px;
+    line-height: 1.5;
   }
 }
 
@@ -822,5 +893,109 @@ body {
 @media (max-width: 640px) {
   .track-phone-image {
     display: none; /* usually better to hide it on small screens rather than crop awkwardly */
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ========================================
+   MOBILE TRACKER FIX ONLY
+   Desktop remains unchanged
+======================================== */
+
+@media (max-width: 639px) {
+  .tracker-form {
+    width: 100%;
+    max-width: 100%;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .tracker-input {
+    width: 100%;
+    height: 46px;
+    min-height: 46px;
+    flex: none;
+    padding: 0 20px;
+    font-size: 15px;
+    line-height: 46px;
+    border-radius: 12px;
+    box-sizing: border-box;
+  }
+
+  .tracker-input::placeholder {
+    font-size: 15px;
+  }
+
+  .tracker-button {
+    width: 100%;
+    height: 54px;
+    min-height: 54px;
+    padding: 0 20px;
+    border-radius: 12px;
+    box-sizing: border-box;
+  }
+}
+
+/* Desktop-only typography uplift. Mobile retains its app-focused type scale. */
+@media (min-width: 1024px) {
+  .nav-link { font-size: 14.5px; }
+  .section-copy { font-size: 15.5px; }
+  .problem-card h3 { font-size: 15.5px; }
+  .problem-card p { font-size: 13.5px; }
+  .mini-service h3 { font-size: 15.5px; }
+  .mini-service p { font-size: 12.5px; }
+  .why-card h3 { font-size: 15.5px; }
+  .why-card p { font-size: 13.5px; }
+  .testimonial-bubble { font-size: 17.5px; }
+  .testimonial-author strong { font-size: 18.5px; }
+  .testimonial-author > span:not(.testimonial-stars) { font-size: 14.5px; }
+  .faq-question { font-size: 15.5px; }
+  .faq-answer { font-size: 14.5px; }
+}
+
+
+
+/* ==========================================
+   MOBILE — ONE TESTIMONIAL ONLY
+   Desktop remains unchanged
+========================================== */
+
+@media (max-width: 639px) {
+
+  /* Show only one testimonial */
+  .testimonial-second-mobile-hidden {
+    display: none !important;
+  }
+
+  /* Remove reserved empty space */
+  .testimonial-viewport {
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: hidden;
+  }
+
+  .testimonial-stack {
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    display: block !important;
+  }
+
+  .testimonial-stack > .testimonial-card {
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
   }
 }
