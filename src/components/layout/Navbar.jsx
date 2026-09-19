@@ -27,7 +27,7 @@ export default function Navbar() {
         </nav>
         <div className="hidden items-center gap-3 md:flex">
           <Button variant="outline" href="/login" className="px-4 py-2.5 text-brand-500">Login</Button>
-          <Button href="#query" className="px-4 py-2.5">Raise a Query</Button>
+          <Button href="/#query" className="px-4 py-2.5">Raise a Query</Button>
         </div>
       </div>
 

@@ -873,7 +873,8 @@
 
 
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowRight, Check, Copy, Upload } from "lucide-react";
 import { issues, queryBenefits } from "../../data/constants";
 import Button from "../ui/Button";
@@ -894,8 +895,25 @@ function fileToBase64(file) {
   });
 }
 
-function QuerySuccess({ queryId }) {
+function QuerySuccess({ queryId, onRedirect }) {
   const [copied, setCopied] = useState(false);
+  const [secondsRemaining, setSecondsRemaining] = useState(15);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const countdownId = window.setInterval(() => {
+      setSecondsRemaining((seconds) => Math.max(0, seconds - 1));
+    }, 1000);
+    const redirectId = window.setTimeout(() => {
+      onRedirect();
+      navigate({ pathname: "/", hash: "#query" });
+    }, 15000);
+
+    return () => {
+      window.clearInterval(countdownId);
+      window.clearTimeout(redirectId);
+    };
+  }, [navigate, onRedirect]);
 
   const copyQueryId = async () => {
     try {
@@ -924,7 +942,10 @@ function QuerySuccess({ queryId }) {
         </div>
         <h2 className="mt-5 text-3xl font-extrabold text-brand-900">Your Query Has Been Submitted Successfully</h2>
         <p className="mt-3 text-slate-600">
-          Your query reference ID has been generated. Use it to track your query status.
+          <strong>Reference ID</strong> has been generated.
+        </p>
+        <p className="mt-2 text-sm font-semibold text-slate-500">
+          <strong>Please copy or save your Query ID</strong> — you’ll need it to track the status of your query. You’ll be redirected to the <strong>Home Page</strong> in {secondsRemaining} second{secondsRemaining === 1 ? "" : "s"}.
         </p>
         <div className="mx-auto mt-6 max-w-sm rounded-xl bg-white p-5">
           <div className="text-xs font-bold uppercase tracking-wider text-slate-500">Query Reference ID</div>
@@ -953,7 +974,8 @@ export default function QueryForm({ selectedIssue }) {
   const [error, setError] = useState("");
   const [issue, setIssue] = useState(selectedIssue || "");
   const [fileName, setFileName] = useState("");
-  const [queryId] = useState(() => `DP-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 899999)}`);
+  const createQueryId = () => `DP-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 899999)}`;
+  const [queryId] = useState(createQueryId);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -993,7 +1015,7 @@ export default function QueryForm({ selectedIssue }) {
   }
 
   if (submitted) {
-    return <QuerySuccess queryId={queryId} />;
+    return <QuerySuccess queryId={queryId} onRedirect={() => setSubmitted(false)} />;
   }
 
   return (
