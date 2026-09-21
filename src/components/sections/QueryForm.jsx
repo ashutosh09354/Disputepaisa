@@ -1042,7 +1042,19 @@ export default function QueryForm({ selectedIssue }) {
           <form onSubmit={handleSubmit} className="form-card">
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Full Name" name="fullName" placeholder="Enter your full name" required />
-              <Field label="Mobile Number" name="mobile" placeholder="Enter 10 digit mobile number" required />
+              <Field
+                label="Mobile Number"
+                name="mobile"
+                type="tel"
+                inputMode="numeric"
+                pattern="[0-9]*"
+                maxLength={10}
+                placeholder="Enter 10 digit mobile number"
+                onInput={(event) => {
+                  event.currentTarget.value = event.currentTarget.value.replace(/\D/g, "");
+                }}
+                required
+              />
               <Field label="Email Id" name="email" placeholder="Enter your email address" type="email" required />
               <label className="field">
                 <span>Select Issue Type</span>
@@ -1055,7 +1067,7 @@ export default function QueryForm({ selectedIssue }) {
               </label>
               <label className="field sm:col-span-2">
                 <span>Describe your issue</span>
-                <textarea name="description" required placeholder="Please describe your issue in detail..." />
+                <textarea name="description" placeholder="Please describe your issue in detail..." />
               </label>
               <label className="upload sm:col-span-2">
                 <Upload size={22} className="text-brand-500" />
