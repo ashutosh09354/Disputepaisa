@@ -3,7 +3,7 @@ import { issues } from "../../data/constants";
 
 export default function ProblemExplorer({ onIssue }) {
   return (
-    <section className="section-shell py-11 md:py-16 lg:py-20" id="services">
+    <section className="section-shell py-10 md:py-12 lg:py-14" id="services">
       <div className="flex items-end justify-between gap-4">
         <h2 className="section-title">Facing any of these banking problems?</h2>
         <a

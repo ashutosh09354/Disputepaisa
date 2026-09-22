@@ -9,7 +9,7 @@ const features = [
 
 export default function WhyUs() {
   return (
-    <section id="about" className="section-shell py-11 md:py-16 lg:py-20">
+    <section id="about" className="section-shell py-10 md:py-12 lg:py-14">
       <div className="text-center">
         <h2 className="section-title">Why choose DisputePaisa?</h2>
         <p className="section-copy mx-auto mt-3">

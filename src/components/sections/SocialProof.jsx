@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Star } from "lucide-react";
 
 import testimonialImage from "../../assets/testimonial.png";
 import testimonialImage3 from "../../assets/testimonial3.png";  
@@ -69,7 +69,7 @@ export default function SocialProof() {
   return (
     <section
       id="faq"
-      className="section-shell pb-11 md:pb-16 lg:pb-20"
+      className="section-shell pb-10 md:pb-12 lg:pb-14"
     >
       <div className="social-proof-grid">
 
@@ -231,7 +231,9 @@ function TestimonialCard({ testimonial }) {
             className="testimonial-stars"
             aria-label="5 star rating"
           >
-            ★★★★★
+            {Array.from({ length: 5 }, (_, index) => (
+              <Star key={index} size={16} fill="#f5b82e" stroke="#f5b82e" aria-hidden="true" />
+            ))}
           </span>
 
         </div>

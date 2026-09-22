@@ -875,10 +875,13 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowRight, Check, Copy, Upload } from "lucide-react";
+import {
+  ArrowRight, Check, CheckCircle2, ClipboardList, Copy, FileText,
+  Headphones, LockKeyhole, Mail, MessageSquare, Phone, Search,
+  Send, ShieldCheck, Upload, UserRound,
+} from "lucide-react";
 import { issues, queryBenefits } from "../../data/constants";
 import Button from "../ui/Button";
-import Field from "../ui/Field";
 
 // Paste the Web App URL you copied after deploying the Apps Script
 // (the one ending in /exec, NOT the Deployment ID).
@@ -893,6 +896,18 @@ function fileToBase64(file) {
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
+}
+
+function IconField({ label, Icon, className = "", ...props }) {
+  return (
+    <label className={`field query-icon-field ${className}`}>
+      <span>{label} <em>*</em></span>
+      <div className="relative">
+        <Icon size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" />
+        <input className="!pl-12" {...props} />
+      </div>
+    </label>
+  );
 }
 
 function QuerySuccess({ queryId, onRedirect }) {
@@ -974,6 +989,7 @@ export default function QueryForm({ selectedIssue }) {
   const [error, setError] = useState("");
   const [issue, setIssue] = useState(selectedIssue || "");
   const [fileName, setFileName] = useState("");
+  const [description, setDescription] = useState("");
   const createQueryId = () => `DP-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 899999)}`;
   const [queryId] = useState(createQueryId);
 
@@ -1019,78 +1035,72 @@ export default function QueryForm({ selectedIssue }) {
   }
 
   return (
-    <section id="query" className="w-full section-soft">
-      <div className="section-shell py-11 md:py-16 lg:py-20">
-        <div className="grid gap-10 lg:grid-cols-[.85fr_1.15fr]">
-          <div>
-            <h2 className="section-title">Raise your banking query</h2>
-            <p className="section-copy mt-3">
+    <section id="query" className="query-section w-full overflow-hidden bg-[#f8fcff]">
+      <div className="section-shell py-10 md:py-12 lg:py-14 xl:py-16">
+        <div className="mx-auto grid max-w-[1520px] items-start gap-10 xl:grid-cols-[1fr_1.04fr] xl:gap-14">
+          <div className="query-intro">
+            <h2 className="contact-title max-w-[610px] text-brand-900">
+              Raise your <span className="block text-brand-500">banking query</span>
+            </h2>
+            <div className="mt-5 h-1 w-24 rounded-full bg-gradient-to-r from-brand-500 to-brand-200" />
+            <p className="mt-6 max-w-[620px] text-[16px] leading-7 text-slate-600 lg:text-[17px]">
               Share the details of your banking concern. Our team will review your query and contact you regarding the next steps.
             </p>
-            {/* Green-tick benefits list: hidden on phone, shown from lg (desktop) up */}
-            <div className="mt-8 hidden space-y-4 lg:block">
+            <div className="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-x-8">
               {queryBenefits.map((benefit) => (
-                <div key={benefit} className="flex items-center gap-3 text-sm font-semibold text-slate-700">
-                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-accent-500 text-white">
-                    <Check size={14} />
-                  </span>
-                  {benefit}
+                <div key={benefit} className="flex items-center gap-3 text-sm font-semibold text-brand-900">
+                  <CheckCircle2 size={25} className="shrink-0 text-accent-500" /> {benefit}
                 </div>
               ))}
+              <div className="flex items-center gap-3 text-sm font-semibold text-brand-900">
+                <CheckCircle2 size={25} className="shrink-0 text-accent-500" /> Assistance across all major banks
+              </div>
+            </div>
+
+            <div className="mt-12 hidden sm:block">
+              <div className="flex items-center gap-4">
+                <h3 className="text-3xl font-extrabold tracking-[-.04em] text-brand-900">How it works?</h3>
+                <span className="h-1 w-14 rounded-full bg-brand-500" />
+              </div>
+              <div className="mt-5 grid max-w-[590px] grid-cols-2 gap-2 lg:grid-cols-4">
+                {[
+                  ["01", "Fill the form", FileText, "bg-sky-100 text-brand-500"],
+                  ["02", "Get Query ID", Mail, "bg-emerald-100 text-emerald-600"],
+                  ["03", "Track Status", Search, "bg-violet-100 text-violet-600"],
+                  ["04", "Get Assistance", Headphones, "bg-orange-100 text-orange-500"],
+                ].map(([number, title, Icon, colour]) => (
+                  <div key={number} className="relative rounded-xl bg-white px-1.5 py-2.5 text-center shadow-[0_8px_18px_rgba(8,41,79,.06)]">
+                    <div className={`mx-auto grid h-10 w-10 place-items-center rounded-full ${colour}`}><Icon size={20} /></div>
+                    <p className="mt-4 text-xs font-extrabold text-brand-900">{title}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-10 hidden flex-wrap items-center gap-x-6 gap-y-3 rounded-2xl border border-brand-100 bg-brand-50/80 px-5 py-4 text-sm text-slate-600 sm:flex">
+              <ShieldCheck size={46} className="text-brand-500" />
+              <strong className="mr-2 text-brand-900">Your information is safe with us</strong>
+              <span className="flex items-center gap-2"><LockKeyhole size={16} /> Secure</span>
+              <span className="flex items-center gap-2"><ShieldCheck size={16} /> Confidential</span>
             </div>
           </div>
-          <form onSubmit={handleSubmit} className="form-card">
-            <div className="grid gap-4 sm:grid-cols-2">
-              <Field label="Full Name" name="fullName" placeholder="Enter your full name" required />
-              <Field
-                label="Mobile Number"
-                name="mobile"
-                type="tel"
-                inputMode="numeric"
-                pattern="[0-9]*"
-                maxLength={10}
-                placeholder="Enter 10 digit mobile number"
-                onInput={(event) => {
-                  event.currentTarget.value = event.currentTarget.value.replace(/\D/g, "");
-                }}
-                required
-              />
-              <Field label="Email Id" name="email" placeholder="Enter your email address" type="email" required />
-              <label className="field">
-                <span>Select Issue Type</span>
-                <select name="issueType" value={issue} onChange={(e) => setIssue(e.target.value)} required>
-                  <option value="">Choose issue type</option>
-                  {issues.map((item) => (
-                    <option key={item.title} value={item.title}>{item.title}</option>
-                  ))}
-                </select>
-              </label>
-              <label className="field sm:col-span-2">
-                <span>Describe your issue</span>
-                <textarea name="description" placeholder="Please describe your issue in detail..." />
-              </label>
-              <label className="upload sm:col-span-2">
-                <Upload size={22} className="text-brand-500" />
-                <span>
-                  <b>Upload Documents</b>
-                  <small>{fileName || "Click to upload or drag and drop PDF, JPG or PNG"}</small>
-                </span>
-                <input
-                  type="file"
-                  name="document"
-                  accept=".pdf,.jpg,.jpeg,.png"
-                  onChange={(e) => setFileName(e.target.files?.[0]?.name || "")}
-                />
-              </label>
+
+          <form onSubmit={handleSubmit} className="query-form-card rounded-[26px] border border-white bg-white p-5 shadow-[0_18px_55px_rgba(8,41,79,.11)] sm:p-7 lg:p-8">
+            <div className="mb-7 flex items-center gap-4">
+              <div className="grid h-[68px] w-[68px] shrink-0 place-items-center rounded-2xl bg-brand-100 text-brand-500"><ClipboardList size={35} /></div>
+              <div><h3 className="text-2xl font-extrabold tracking-[-.04em] text-brand-900">Submit Your Query</h3><p className="mt-1 text-sm text-slate-600">Tell us about your banking issue and we'll take it from here.</p></div>
+            </div>
+            <div className="grid gap-x-4 gap-y-5 sm:grid-cols-2">
+              <IconField label="Full Name" Icon={UserRound} name="fullName" placeholder="Enter your full name" required />
+              <IconField label="Mobile Number" Icon={Phone} name="mobile" type="tel" inputMode="numeric" pattern="[0-9]*" maxLength={10} placeholder="Enter 10 digit mobile number" onInput={(event) => { event.currentTarget.value = event.currentTarget.value.replace(/\D/g, ""); }} required />
+              <IconField label="Email ID" Icon={Mail} name="email" type="email" placeholder="Enter your email address" required />
+              <label className="field query-icon-field"><span>Select Issue Type <em>*</em></span><div className="relative"><MessageSquare size={18} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-500" /><select className="!pl-12" name="issueType" value={issue} onChange={(e) => setIssue(e.target.value)} required><option value="">Choose issue type</option>{issues.map((item) => <option key={item.title} value={item.title}>{item.title}</option>)}</select></div></label>
+              <label className="field query-icon-field sm:col-span-2"><span>Describe your issue</span><div className="relative"><MessageSquare size={18} className="pointer-events-none absolute left-4 top-4 text-slate-500" /><textarea className="!min-h-[120px] !pl-12 !pr-14" name="description" value={description} maxLength={500} onChange={(e) => setDescription(e.target.value)} placeholder="Please describe your issue in detail..." /><small className="absolute bottom-3 right-4 text-xs text-slate-400">{description.length}/500</small></div></label>
+              <label className="upload query-upload sm:col-span-2"><Upload size={30} className="text-brand-500" /><span><b>Upload Documents <i>(Optional)</i></b><small>{fileName || "Click to upload or drag and drop PDF, JPG or PNG"}</small></span><input type="file" name="document" accept=".pdf,.jpg,.jpeg,.png" onChange={(e) => setFileName(e.target.files?.[0]?.name || "")} /></label>
             </div>
             {error && <p className="mt-4 text-sm font-semibold text-red-600">{error}</p>}
-            <button
-              type="submit"
-              disabled={submitting}
-              className="mt-5 flex w-full items-center justify-center gap-2 rounded-xl bg-brand-500 py-3.5 text-sm font-extrabold text-white transition hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {submitting ? "Submitting..." : "Submit Query"} <ArrowRight size={16} />
-            </button>
+            <button type="submit" disabled={submitting} className="mt-5 flex w-full items-center justify-center gap-3 rounded-xl bg-brand-500 py-4 text-base font-extrabold text-white shadow-[0_8px_18px_rgba(20,119,232,.28)] transition hover:bg-brand-600 disabled:cursor-not-allowed disabled:opacity-60">{submitting ? "Submitting..." : "Submit Query"} {submitting ? <ArrowRight size={20} /> : <Send size={20} />}</button>
+            <p className="mt-5 flex justify-center gap-2 text-center text-sm text-slate-500"><LockKeyhole size={18} className="shrink-0" /> Your information is secure and will only be used to assist you.</p>
           </form>
         </div>
       </div>

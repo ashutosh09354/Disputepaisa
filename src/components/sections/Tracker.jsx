@@ -122,7 +122,7 @@ export default function Tracker() {
   }
 
   return (
-    <section id="track" className="section-shell py-11 md:py-16 lg:py-20 track-section">
+    <section id="track" className="section-shell py-10 md:py-12 lg:py-14 track-section">
       <div className="track-box w-full">
         <div className="relative z-10 w-full max-w-xl xl:max-w-2xl">
           <h2 className="section-title">Track Your Query</h2>
